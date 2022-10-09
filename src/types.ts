@@ -1,6 +1,5 @@
-export interface Todo {
+export interface Person {
   id: string;
   created: string;
-  text: string;
-  completed: boolean;
+  name: string;
 }

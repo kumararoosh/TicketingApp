@@ -1,44 +1,38 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import { useMemo, useState } from "react";
-import { createTodo, deleteTodo, toggleTodo, useTodos } from "../api";
+import { createPerson, deletePerson, usePerson } from "../api";
 import styles from "../styles/Home.module.css";
-import { Todo } from "../types";
+import { Person } from "../types";
 
 export const TodoList: React.FC = () => {
-  const { data: todos, error } = useTodos();
+  const { data: people, error } = usePerson();
 
   if (error != null) return <div>Error loading todos...</div>;
-  if (todos == null) return <div>Loading...</div>;
+  if (people == null) return <div>Loading...</div>;
 
-  if (todos.length === 0) {
+  if (people.length === 0) {
     return <div className={styles.emptyState}>Try adding a todo ☝️️</div>;
   }
 
   return (
     <ul className={styles.todoList}>
-      {todos.map(todo => (
-        <TodoItem todo={todo} />
+      {people.map(p => (
+        <PersonEntry person={p} />
       ))}
     </ul>
   );
 };
 
-const TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => (
+const PersonEntry: React.FC<{ person: Person }> = ({ person }) => (
   <li className={styles.todo}>
     <label
-      className={`${styles.label} ${todo.completed ? styles.checked : ""}`}
+      className={`${styles.label}`}
     >
-      <input
-        type="checkbox"
-        checked={todo.completed}
-        className={`${styles.checkbox}`}
-        onChange={() => toggleTodo(todo)}
-      />
-      {todo.text}
+      {person.name} {person.id} 
     </label>
 
-    <button className={styles.deleteButton} onClick={() => deleteTodo(todo.id)}>
+    <button className={styles.deleteButton} onClick={() => deletePerson(person.id)}>
       ✕
     </button>
   </li>
@@ -51,7 +45,7 @@ const AddTodoInput = () => {
     <form
       onSubmit={async e => {
         e.preventDefault();
-        createTodo(text);
+        createPerson(text);
         setText("");
       }}
       className={styles.addTodo}
