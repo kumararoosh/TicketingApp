@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 import useSWR, { mutate } from "swr";
 import { Person } from "./types";
 
@@ -10,7 +11,7 @@ export const usePerson = () => useSWR<Person[]>(personPath);
 export const createPerson = async (name: string) => {
   mutate(
     personPath,
-    todos => [{ name, id: "new-todo" }, ...todos],
+    people => [{ name, id: "new-todo" }, ...people],
     false,
   );
   await fetch(personPath, {
@@ -21,6 +22,24 @@ export const createPerson = async (name: string) => {
   mutate(personPath);
 };
 
+export const toggleVerifiedPayment = async (id: string, checkbox: boolean) => {
+  const value: boolean = checkbox;
+  mutate(
+    personPath,
+    people => people.map(
+      p => p.id == id ? {...people, sentPayment: checkbox} : p,
+    ),
+    false
+  );
+
+  await fetch(`${personPath}?personId=${id}`, {
+    method: "PUT",
+    body: JSON.stringify({sentPayment: checkbox})
+  });
+
+  mutate(personPath);
+
+}
 
 export const deletePerson = async (id: string) => {
   mutate(personPath, people => people.filter(t => t.id !== id), false);

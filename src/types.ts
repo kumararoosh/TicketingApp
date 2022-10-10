@@ -1,5 +1,6 @@
 export interface Person {
   id: string;
-  created: string;
+  createdAt: Date;
   name: string;
+  sentPayment: boolean;
 }

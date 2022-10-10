@@ -14,7 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // create a person
     const name = JSON.parse(req.body).name;
     const person = await prisma.person.create({
-      data: { name: name },
+      data: { name: name, sentPayment: false },
     });
 
     res.json(person);

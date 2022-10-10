@@ -11,7 +11,8 @@ generator client {
 }
 
 model Person {
-  id        String @id @default(uuid())
-  createdAt DateTime @default(now())
-  name      String
+  id          String @id @default(uuid())
+  createdAt   DateTime @default(now())
+  name        String
+  sentPayment Boolean @default(false)
 }
