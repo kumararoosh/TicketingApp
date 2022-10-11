@@ -8,15 +8,16 @@ const personPath = "/api/users";
 export const usePerson = () => useSWR<Person[]>(personPath);
 
 
-export const createPerson = async (name: string) => {
+export const createPerson = async (person: string, venmoId: string) => {
+
   mutate(
     personPath,
-    people => [{ name, id: "new-todo" }, ...people],
+    people => [{ person, venmoId: venmoId, id: "new-todo" }, ...people],
     false,
   );
   await fetch(personPath, {
     method: "POST",
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ name: person, venmoId: venmoId }),
   });
 
   mutate(personPath);

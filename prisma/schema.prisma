@@ -15,4 +15,5 @@ model Person {
   createdAt   DateTime @default(now())
   name        String
   sentPayment Boolean @default(false)
+  venmoId     String @default("")
 }

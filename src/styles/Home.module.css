@@ -2,7 +2,8 @@
   padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
+  gap: 50px;
   align-items: center;
 }
 
@@ -85,12 +86,15 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
+  display: table;
+  width: 70%;
 }
 
 .todo {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  gap: 50px;
 }
 
 .label {
@@ -100,9 +104,7 @@
   cursor: pointer;
 }
 
-.checkbox {
-  margin-right: 1rem;
-}
+
 
 .checked {
   text-decoration: line-through;
@@ -128,4 +130,17 @@
     min-width: auto;
     width: 100%;
   }
+}
+
+.col {
+  display: table-cell;
+  align-self: center;
+}
+
+.row {
+  display: table-row;
+}
+
+.checkbox {
+  margin-right: 1rem;
 }

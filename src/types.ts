@@ -3,4 +3,5 @@ export interface Person {
   createdAt: Date;
   name: string;
   sentPayment: boolean;
+  venmoId: string;
 }

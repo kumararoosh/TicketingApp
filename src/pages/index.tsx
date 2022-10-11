@@ -38,28 +38,6 @@ const PersonEntry: React.FC<{ person: Person }> = ({ person }) => (
   </li>
 );
 
-const AddTodoInput = () => {
-  const [text, setText] = useState("");
-
-  return (
-    <form
-      onSubmit={async e => {
-        e.preventDefault();
-        createPerson(text);
-        setText("");
-      }}
-      className={styles.addTodo}
-    >
-      <input
-        className={styles.input}
-        placeholder="Buy some milk"
-        value={text}
-        onChange={e => setText(e.target.value)}
-      />
-      <button className={styles.addButton}>Add</button>
-    </form>
-  );
-};
 
 const Home: NextPage = () => {
   return (
@@ -78,7 +56,6 @@ const Home: NextPage = () => {
       </header>
 
       <main className={styles.main}>
-        <AddTodoInput />
 
         <TodoList />
       </main>
