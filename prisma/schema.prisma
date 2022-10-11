@@ -11,9 +11,10 @@ generator client {
 }
 
 model Person {
-  id          String @id @default(uuid())
-  createdAt   DateTime @default(now())
-  name        String
-  sentPayment Boolean @default(false)
-  venmoId     String @default("")
+  id            String @id @default(uuid())
+  createdAt     DateTime @default(now())
+  name          String
+  sentPayment   Boolean @default(false)
+  venmoId       String 
+  ticketEmailed Boolean @default(false)
 }
