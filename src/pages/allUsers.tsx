@@ -52,8 +52,8 @@ export const TodoList: React.FC = () => {
             <label className={styles.col}><b>Name</b></label>
             <label className={styles.col}><b>ID</b></label>
             <label className={styles.col}><b>Venmo ID</b></label>
-            <label className={styles.col}><b>Delete</b></label>
             <label className={styles.col}><b>Paid</b></label>
+            <label className={styles.col}><b>Delete</b></label>
         </li>
         {people.map(p => (
           <PersonEntry person={p} />
@@ -75,12 +75,7 @@ const PersonEntry: React.FC<{ person: Person }> = ({ person }) => (
         <label className={styles.col}>
             {person.venmoId}
         </label>
-        <div className={styles.col}>
-            <button className={styles.deleteButton} onClick={() => deletePerson(person.id)}>
-                ✕
-            </button>
-        </div>
-      
+
         <div className={styles.col}>
             <input    
                 type="checkbox" 
@@ -89,6 +84,13 @@ const PersonEntry: React.FC<{ person: Person }> = ({ person }) => (
                 checked={person.sentPayment}>
             </input>
         </div>
+        <div className={styles.col}>
+            <button className={styles.deleteButton} onClick={() => deletePerson(person.id)}>
+                ✕
+            </button>
+        </div>
+      
+        
       
     </li>
   );
