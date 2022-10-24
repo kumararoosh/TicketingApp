@@ -8,16 +8,16 @@ const personPath = "/api/users";
 export const usePerson = () => useSWR<Person[]>(personPath);
 
 
-export const createPerson = async (person: string, venmoId: string) => {
+export const createPerson = async (person: string, venmoId: string, email: string) => {
 
   mutate(
     personPath,
-    people => [{ person, venmoId: venmoId, id: "new-todo" }, ...people],
+    people => [{ person, venmoId: venmoId, id: "new-todo", email: email}, ...people],
     false,
   );
   await fetch(personPath, {
     method: "POST",
-    body: JSON.stringify({ name: person, venmoId: venmoId }),
+    body: JSON.stringify({ name: person, venmoId: venmoId, email: email}),
   });
 
   mutate(personPath);
@@ -40,6 +40,23 @@ export const toggleVerifiedPayment = async (id: string, checkbox: boolean) => {
 
   mutate(personPath);
 
+}
+
+export const toggleEmailSent = async (id: string) => {
+  mutate(
+    personPath,
+    people => people.map(
+      p => p.id == id ? {...people, ticketEmailed: true} : p,
+    ),
+    false
+  );
+
+  await fetch(`${personPath}?personId=${id}`, {
+    method: "PUT",
+    body: JSON.stringify({ticketEmailed: true})
+  });
+
+  mutate(personPath);
 }
 
 export const deletePerson = async (id: string) => {

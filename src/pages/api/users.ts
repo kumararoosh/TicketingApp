@@ -12,11 +12,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.json(person);
   } else if (req.method === "POST") {
     // create a person
-    console.log(JSON.parse(req.body))
+    console.log(req.body)
     const name = JSON.parse(req.body).name;
-    const venmoId = JSON.parse(req.body).venmoId
+    const venmoId = JSON.parse(req.body).venmoId;
+    const email = JSON.parse(req.body).email;
     const person = await prisma.person.create({
-      data: { name: name, venmoId: venmoId, sentPayment: false },
+      data: { name: name, venmoId: venmoId, sentPayment: false, email: email},
     });
 
     res.json(person);

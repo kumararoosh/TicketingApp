@@ -2,19 +2,21 @@ import { NextPage } from "next";
 import { Person } from "@prisma/client";
 import { useState } from "react";
 import styles from "../styles/Home.module.css";
-import { deletePerson, toggleVerifiedPayment, usePerson, createPerson } from "../api";
+import { deletePerson, toggleVerifiedPayment, usePerson, createPerson, toggleEmailSent} from "../api";
 
 const AddTodoInput = () => {
     const [name, setName] = useState("");
     const [venmoId, setVenmoId] = useState("");
+    const [email, setEmail] = useState("");
 
     return (
         <form
             onSubmit={async e => {
                 e.preventDefault();
-                createPerson(name, venmoId);
+                createPerson(name, venmoId, email);
                 setName("");
                 setVenmoId("");
+                setEmail("");
             }}
             className={styles.addTodo}
         >
@@ -24,6 +26,12 @@ const AddTodoInput = () => {
             placeholder="name"
             value={name}
             onChange={e => setName(e.target.value)}
+        />
+        <input
+            className={styles.input}
+            placeholder="example@email.com"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
         />
         <input
             className={styles.input}
@@ -51,6 +59,7 @@ export const TodoList: React.FC = () => {
         <li className={styles.row}>
             <label className={styles.col}><b>Name</b></label>
             <label className={styles.col}><b>ID</b></label>
+            <label className={styles.col}><b>Email</b></label>
             <label className={styles.col}><b>Venmo ID</b></label>
             <label className={styles.col}><b>Paid</b></label>
             <label className={styles.col}><b>Delete</b></label>
@@ -71,6 +80,9 @@ const PersonEntry: React.FC<{ person: Person }> = ({ person }) => (
         </label>
         <label className={styles.col}>
             {person.id} 
+        </label>
+        <label className={styles.col}>
+            {person.email}
         </label>
         <label className={styles.col}>
             {person.venmoId}
@@ -94,6 +106,21 @@ const PersonEntry: React.FC<{ person: Person }> = ({ person }) => (
       
     </li>
   );
+const PushEmailButton: React.FC = () => {
+
+    const {data: people, error} = usePerson();
+    console.log(people);
+
+    return (
+    <button onClick={() => {
+        console.log(people.filter(p => p.sentPayment && !p.ticketEmailed));
+        people.filter(p => p.sentPayment && !p.ticketEmailed).forEach(p => toggleEmailSent(p.id));
+        
+    }}>
+        SEND OUT EMAIL
+    </button>
+    );
+};
 
 
 
@@ -101,6 +128,7 @@ const AllUsers: NextPage = () => {
     return (
         <div className={styles.container}>
                 <AddTodoInput />
+                <PushEmailButton />
                 <TodoList />                
         </div>
     );

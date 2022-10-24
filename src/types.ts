@@ -4,5 +4,6 @@ export interface Person {
   name: string;
   sentPayment: boolean;
   venmoId: string;
+  email: string;
   ticketEmailed: boolean;
 }

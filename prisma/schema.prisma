@@ -16,5 +16,6 @@ model Person {
   name          String
   sentPayment   Boolean @default(false)
   venmoId       String 
+  email         String @default("")
   ticketEmailed Boolean @default(false)
 }
