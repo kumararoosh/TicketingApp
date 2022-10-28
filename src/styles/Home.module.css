@@ -82,12 +82,11 @@
 }
 
 .todoList {
-  width: 100%;
   margin: 0;
   padding: 0;
   list-style-type: none;
   display: table;
-  width: 70%;
+  width: 100%;
 }
 
 .todo {
@@ -140,4 +139,8 @@
 
 .checkbox {
   margin-right: 1rem;
+}
+
+.todoListHolder {
+  width: 1000px;
 }

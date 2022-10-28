@@ -42,16 +42,30 @@ export const toggleVerifiedPayment = async (id: string, checkbox: boolean) => {
 
 }
 
-export const toggleEmailSent = async (id: string) => {
+export const toggleEmailSent = async (person: Person) => {
   mutate(
     personPath,
     people => people.map(
-      p => p.id == id ? {...people, ticketEmailed: true} : p,
+      p => p.id == person.id ? {...people, ticketEmailed: true} : p,
     ),
     false
   );
 
-  await fetch(`${personPath}?personId=${id}`, {
+  let formData = new FormData();
+  formData.append('name', person.name);
+  formData.append('uuid', person.id);
+  formData.append('email', person.email);
+
+  await fetch(`http://127.0.0.1:5000/sendUserEmail`, {
+    mode: 'cors',
+    body: formData,
+    method: "POST",
+    headers: {
+      'Access-Control-Allow-Origin':'*'
+    }
+  });
+
+  await fetch(`${personPath}?personId=${person.id}`, {
     method: "PUT",
     body: JSON.stringify({ticketEmailed: true})
   });

@@ -45,29 +45,46 @@ const AddTodoInput = () => {
   };
 
 export const TodoList: React.FC = () => {
-    const { data: people, error } = usePerson();
-  
+    let { data: people, error } = usePerson();
+    const [paidUsersChecked, setPaidUsersChecked] = useState(false);
+
+
+    
     if (error != null) return <div>Error loading todos...</div>;
     if (people == null) return <div>Loading...</div>;
   
     if (people.length === 0) {
       return <div className={styles.emptyState}>Try adding a todo ☝️️</div>;
     }
+
+    if (paidUsersChecked) {
+        people = people.filter(p => !p.sentPayment)
+    }
   
     return (
-      <ul className={styles.todoList}>
-        <li className={styles.row}>
-            <label className={styles.col}><b>Name</b></label>
-            <label className={styles.col}><b>ID</b></label>
-            <label className={styles.col}><b>Email</b></label>
-            <label className={styles.col}><b>Venmo ID</b></label>
-            <label className={styles.col}><b>Paid</b></label>
-            <label className={styles.col}><b>Delete</b></label>
-        </li>
-        {people.map(p => (
-          <PersonEntry person={p} />
-        ))}
-      </ul>
+        <div className={styles.todoListHolder}>
+            <div>
+                <input    
+                    type="checkbox" 
+                    onChange={e => {setPaidUsersChecked(e.target.checked)
+                    }} > 
+                </input>
+                Filter out paid users
+            </div>
+        <ul className={styles.todoList}>
+            <li className={styles.row}>
+                <label className={styles.col}><b>Name</b></label>
+                <label className={styles.col}><b>ID</b></label>
+                <label className={styles.col}><b>Email</b></label>
+                <label className={styles.col}><b>Venmo ID</b></label>
+                <label className={styles.col}><b>Paid</b></label>
+                <label className={styles.col}><b>Delete</b></label>
+            </li>
+            {people.map(p => (
+            <PersonEntry person={p} />
+            ))}
+        </ul>
+        </div>
     );
   };
 
@@ -109,12 +126,11 @@ const PersonEntry: React.FC<{ person: Person }> = ({ person }) => (
 const PushEmailButton: React.FC = () => {
 
     const {data: people, error} = usePerson();
-    console.log(people);
 
     return (
     <button onClick={() => {
         console.log(people.filter(p => p.sentPayment && !p.ticketEmailed));
-        people.filter(p => p.sentPayment && !p.ticketEmailed).forEach(p => toggleEmailSent(p.id));
+        people.filter(p => p.sentPayment && !p.ticketEmailed).forEach(p => toggleEmailSent(p));
         
     }}>
         SEND OUT EMAIL
